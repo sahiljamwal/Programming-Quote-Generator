@@ -1,35 +1,37 @@
 window.addEventListener("load", initFunctions);
 
 //global variables for maniuplating DOM
-const quote = document.querySelector("#quote");
-const author = document.querySelector("#author");
+const quoteText = document.querySelector("#quote");
+const authorText = document.querySelector("#author");
 
 //to initate calling mechanism of functions
 function initFunctions() {
-  document.querySelector("#newquote").addEventListener("click", getQuote);
-  document.querySelector("#twitter").addEventListener("click", tweetQuote);
+  document
+    .querySelector("#newquote")
+    .addEventListener("click", getQuoteFromApi);
+  document
+    .querySelector("#twitter")
+    .addEventListener("click", tweetQuoteUsingApi);
 }
 
 //to get a new quote from the function
-function getQuote() {
-    const proxyUrl = 'https://sj-proxy-server.herokuapp.com/';
+function getQuoteFromApi() {
+  const proxyUrl = "https://sj-proxy-server.herokuapp.com/";
   const apiUrl = "http://quotes.stormconsultancy.co.uk/random.json";
 
   if (window.fetch) {
-    let promise = fetch(proxyUrl+apiUrl);
-
+    let promise = fetch(proxyUrl + apiUrl);
     promise
       .then((response) => {
         response
           .json()
           .then((data) => {
-            console.log(data);
-            printQuote(data);
+            //console.log(data);
+            printQuoteToScreen(data);
           })
           .catch((err) => console.error("Invalid JSON!"));
       })
       .catch((err) => {
-        //getQuote();
         console.error("Encountered an error ", err);
       });
   } else {
@@ -38,20 +40,19 @@ function getQuote() {
 }
 
 //to print quote to the console
-function printQuote(data) {
+function printQuoteToScreen(data) {
   if (data.quote.length > 120) {
-    quote.classList.add("long-text");
+    quoteText.classList.add("long-text");
   } else {
-    quote.classList.remove("long-text");
+    quoteText.classList.remove("long-text");
   }
-  quote.innerText = data.quote;
-  author.innerText = data.author;
+  quoteText.innerText = data.quote;
+  authorText.innerText = data.author;
 }
 
-//function to tweet quote to twitter
-function tweetQuote() {
-  const tweet = quote.innerText;
-  const by = author.innerText;
-  const twitterUrl = `https://twitter.com/intent/tweet?text=${tweet} - ${by}`;
+function tweetQuoteUsingApi() {
+  const tweet = quoteText.innerText;
+  const author = authorText.innerText;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${tweet} - ${author}`;
   window.open(twitterUrl, "_blank");
 }
