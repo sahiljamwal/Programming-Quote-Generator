@@ -12,10 +12,11 @@ function initFunctions() {
 
 //to get a new quote from the function
 function getQuote() {
-  const apiUrl = "https://quotes.stormconsultancy.co.uk/random.json";
+    const proxyUrl = 'https://sj-proxy-server.herokuapp.com/';
+  const apiUrl = "http://quotes.stormconsultancy.co.uk/random.json";
 
   if (window.fetch) {
-    let promise = fetch(apiUrl);
+    let promise = fetch(proxyUrl+apiUrl);
 
     promise
       .then((response) => {
