@@ -12,7 +12,7 @@ function initFunctions() {
 
 //to get a new quote from the function
 function getQuote() {
-  const apiUrl = "http://quotes.stormconsultancy.co.uk/random.json";
+  const apiUrl = "https://quotes.stormconsultancy.co.uk/random.json";
 
   if (window.fetch) {
     let promise = fetch(apiUrl);
